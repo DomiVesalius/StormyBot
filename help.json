@@ -1,0 +1,10 @@
+{
+  "Module Name": {
+    "Command Name": {
+      "Aliases": ["alias1", "alias2"],
+      "CommandParameter": "A list of parameters that the command takes.",
+      "Description": "A brief description of this command.",
+      "Permissions": "Permissions required to use this command"
+    }
+  }
+}
