@@ -66,15 +66,16 @@ class LinkedList:
         if self.size == 0:
             return '[]'
 
-        string = "["
-        curr = self.first
-        while curr.next is not None:
-            string += f"{curr.data} -> "
+        res = f"[{self.first.data}"  # Starts with the first element in the list
+
+        curr = self.first.next  #
+        while curr is not None:
+            res += f" -> {curr.data}"
             curr = curr.next
 
-        string += f"{curr.data}]"  # Adding the last item into the string rep
+        res += "]"
 
-        return string
+        return res
 
     def __repr__(self) -> str:
         """
