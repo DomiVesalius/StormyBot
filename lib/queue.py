@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Any
-from linked_list import LinkedList
+from lib.linked_list import LinkedList
 
 
 class Queue:
