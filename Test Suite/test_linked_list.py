@@ -109,14 +109,17 @@ class TestLinkedListStr(unittest.TestCase):
         lst4 = [100, -21, -20, -97, -6, -29]
         str4 = '[100 -> -21 -> -20 -> -97 -> -6 -> -29]'
         lst5 = [-84, 75, -48, -73, -54, -56, -13, -28, 38, -71, -37, 88]
-        str5 = '[-84 -> 75 -> -48 -> -73 -> -54 -> -56 -> -13 -> -28 -> 38 -> ' \
+        str5 = '[-84 -> 75 -> -48 -> -73 -> -54 -> -56 -> -13 -> -28 -> 38 -> '\
                '-71 -> -37 -> 88]'
+        lst6 = [1]
+        str6 = '[1]'
 
         self.assertEqual(str(LinkedList(lst1)), str1)
         self.assertEqual(str(LinkedList(lst2)), str2)
         self.assertEqual(str(LinkedList(lst3)), str3)
         self.assertEqual(str(LinkedList(lst4)), str4)
         self.assertEqual(str(LinkedList(lst5)), str5)
+        self.assertEqual(str(LinkedList(lst6)), str6)
 
 
 class TestLinkedListAppend(unittest.TestCase):
