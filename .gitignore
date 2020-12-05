@@ -1,0 +1,5 @@
+.env
+*.hypothesis
+*.pytest_cache
+__pycache__
+**/pyta_report.html
