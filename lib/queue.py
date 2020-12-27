@@ -19,6 +19,22 @@ class Queue:
         else:
             self._items = LinkedList(items)
 
+    def get_items(self) -> list:
+        """
+        Returns a list of items in the order they appear within self.
+
+        >>> q = Queue()
+        >>> q.get_items()
+        []
+        >>> q = Queue([])
+        >>> q.get_items()
+        []
+        >>> q = Queue([4, 9, 3, 1])
+        >>> q.get_items()
+        [4, 9, 3, 1]
+        """
+        return self._items.get_items()
+
     def is_empty(self) -> bool:
         """
         Returns True iff _items is empty
@@ -51,7 +67,7 @@ class Queue:
 
     def dequeue(self) -> Any:
         """
-        Removes the first item in the Queue <self>
+        Removes the first item in the Queue <self> if it is not empty.
         :return: Any
         >>> q = Queue([9, 10, 44, -2, -3])
         >>> q.dequeue()
@@ -65,4 +81,5 @@ class Queue:
         >>> q.dequeue()
         -3
         """
-        return self._items.pop(0)
+        if not self.is_empty():
+            return self._items.pop(0)

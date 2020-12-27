@@ -77,6 +77,25 @@ class LinkedList:
 
         return res
 
+    def get_items(self) -> list:
+        """
+        Returns a list of items in the order they appear within self.
+
+        >>> linky = LinkedList([4, 2, 1, 5, 9, 6])
+        >>> linky.get_items()
+        [4, 2, 1, 5, 9, 6]
+        >>> linky = LinkedList([])
+        >>> linky.get_items()
+        []
+        """
+        curr = self.first
+        items = []
+        while curr is not None:
+            items.append(curr.data)
+            curr = curr.next
+
+        return items
+
     def __repr__(self) -> str:
         """
         Returns a representation of <self>
