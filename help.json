@@ -4,7 +4,16 @@
       "Aliases": ["alias1", "alias2"],
       "CommandParameter": "A list of parameters that the command takes.",
       "Description": "A brief description of this command.",
-      "Permissions": "Permissions required to use this command"
+      "Permissions": "A list of permissions required to use this command"
+    }
+  },
+
+  "Music": {
+    "Join": {
+      "Aliases": ["Join", "join"],
+      "CommandParameter": [],
+      "Description": "Will make Stormy join your voice channel if you are in one.",
+      "Permissions": []
     }
   }
 }
