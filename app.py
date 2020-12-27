@@ -37,9 +37,9 @@ async def reload(ctx):  # Reloads all the cogs
     """
     for file_name in os.listdir('./cogs'):
         if file_name.endswith('.py'):
-            CLIENT.unload_extension("cogs.{}".format(file_name[:-3]))
-            CLIENT.load_extension("cogs.{}".format(file_name[:-3]))
-            print("Reloaded {}".format(file_name))
+            CLIENT.unload_extension(f"cogs.{file_name[:-3]}")
+            CLIENT.load_extension(f"cogs.{file_name[:-3]}")
+            print(f"Reloaded {file_name}")
     await ctx.send("All commands reloaded!")
 
 
@@ -47,8 +47,8 @@ if __name__ == "__main__":
     # Look in the directory in the cogs folder give all files within it.
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):  # Checking if it is a python file.
-            CLIENT.load_extension('cogs.{}'.format(filename[:-3]))
-            print("{}".format(filename))
+            CLIENT.load_extension(f'cogs.{filename[:-3]}')
+            print(f"{filename}")
 
     load_dotenv(dotenv_path='.env')
     BOT_TOKEN = os.getenv("BOT_TOKEN")
