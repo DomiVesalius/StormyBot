@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any
+from typing import Any, Union, List
 from lib.linked_list import LinkedList
 
 
@@ -7,7 +7,7 @@ class Queue:
     """
     A FIFO queue data structure.
     """
-    _items: LinkedList
+    _items: Union[LinkedList, List]
 
     def __init__(self, items: list = None) -> None:
         """
