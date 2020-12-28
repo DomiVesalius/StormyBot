@@ -22,19 +22,22 @@ class Music(commands.Cog):
         self.farewells = ["Aight, I'ma head out", "Sayonara", "oof"]
 
     @commands.command(name='join', aliases=['Join'])
-    async def join(self, ctx: discord.ext.commands.context.Context) -> None:
+    async def join(self, ctx: discord.ext.commands.context.Context, outputs=True) -> None:
         """
         Makes <self> join the voice channel if any.
+        :param outputs: If outputs is True, event messages will be sent by the bot.
         :param ctx: discord.ext.commands.context.Context
         """
         try:  # If the command invoker is in a voice channel
             channel = ctx.message.author.voice.channel
             voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
             if voice and voice.is_connected():  # The bot is already connected to channel
-                await ctx.send(f"I am already in {channel}")
+                if outputs:
+                    await ctx.send(f"I am already in {channel}")
             else:  # The bot is not connected to any voice channel.
                 await channel.connect()
-                await ctx.send(f"{choice(self.greetings)}\nConnected to {channel}")
+                if outputs:
+                    await ctx.send(f"{choice(self.greetings)}\nConnected to {channel}")
         except AttributeError:  # Invoker is not in a voice channel.
             await ctx.send("You need to be in a voice channel for me to join..")
 
