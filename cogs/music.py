@@ -22,7 +22,8 @@ class Music(commands.Cog):
         self.farewells = ["Aight, I'ma head out", "Sayonara", "oof"]
 
     @commands.command(name='join', aliases=['Join'])
-    async def join(self, ctx: discord.ext.commands.context.Context, outputs=True) -> None:
+    async def join(self, ctx: discord.ext.commands.context.Context,
+                   outputs: bool = True) -> None:
         """
         Makes <self> join the voice channel if any.
         :param outputs: If outputs is True, event messages will be sent by the bot.
