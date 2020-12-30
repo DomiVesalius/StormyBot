@@ -1,8 +1,10 @@
+from typing import Dict, List
 import discord
 import youtube_dl
 from random import choice
 from discord.ext import commands
 from lib.queue import Queue
+from lib.ydl_opts import YDL_OPTS
 
 
 class Music(commands.Cog):
@@ -11,13 +13,15 @@ class Music(commands.Cog):
     """
 
     client: discord.ext.commands.bot.Bot
-    queue: Queue
+    queues: Dict[discord.voice_client.VoiceClient, Queue]
+    greetings: List[str]
+    farewells: List[str]
 
     def __init__(self, client: discord.ext.commands.bot.Bot) -> None:
         """
         Initializes this music Cog
         """
-        self.client, self.queue = client, Queue()
+        self.client, self.queues = client, {}
         self.greetings = ["Ay boss!", "Henlo.", 'Pain.']
         self.farewells = ["Aight, I'ma head out", "Sayonara", "oof"]
 
