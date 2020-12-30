@@ -3,6 +3,8 @@ import discord
 from random import choice
 from discord.ext import commands
 from lib.queue import Queue
+from youtube_search import YoutubeSearch
+import youtube_dl
 
 
 class Music(commands.Cog):
@@ -88,3 +90,14 @@ def setup(client: discord.ext.commands.bot.Bot) -> None:
     Loads the Music cog.
     """
     client.add_cog(Music(client))
+
+
+def youtube_search(query: str, max_results=1) -> list:
+    """
+    Returns a list of video results given a search term <query>
+    :param max_results: The number of results to return.
+    :param query: The video you are looking for.
+    :return:
+    """
+    results = YoutubeSearch(query, max_results=max_results)
+    return results.to_dict()
