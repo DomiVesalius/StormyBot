@@ -1,10 +1,8 @@
 from typing import Dict, List
 import discord
-import youtube_dl
 from random import choice
 from discord.ext import commands
 from lib.queue import Queue
-from lib.ydl_opts import YDL_OPTS
 
 
 class Music(commands.Cog):
@@ -46,7 +44,7 @@ class Music(commands.Cog):
         except AttributeError:  # Invoker is not in a voice channel.
             await ctx.send("You need to be in a voice channel for me to join..")
 
-    @commands.command(name='leave', aliases=['Leave'])
+    @commands.command(name='leave', aliases=['Leave', 'Stop', 'stop'])
     async def leave(self, ctx: discord.ext.commands.context.Context) -> None:
         """
         Makes the bot leave the voice channel it is in if any.
@@ -61,8 +59,29 @@ class Music(commands.Cog):
                 return None
             await server.disconnect()
             await ctx.send(choice(self.farewells))
+            if self.queues.get(server):  # Deleting the queue from the queues attribute.
+                del self.queues[server]
         except AttributeError:
             await ctx.send("I am not in any voice channel.")
+
+    @commands.command(name="pause", aliases=["unpause", "up", "resume"])
+    async def pause(self, ctx: discord.ext.commands.context.Context) -> None:
+        """
+        If the bot is connected to a voice channel, pauses its audio if any is playing,
+        and resumes audio if it is paused.
+        """
+        voice_client = ctx.voice_client
+        if not voice_client.is_connected():
+            await ctx.send("I'm not in any voice channels.")
+            return
+        if voice_client.is_playing():
+            voice_client.pause()
+            embed = discord.Embed(title="Music playback has been paused")
+        else:
+            voice_client.resume()
+            embed = discord.Embed(title="Music playback has resumed.")
+        await ctx.send(embed=embed)
+
 
 
 def setup(client: discord.ext.commands.bot.Bot) -> None:
