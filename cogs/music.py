@@ -83,7 +83,6 @@ class Music(commands.Cog):
         await ctx.send(embed=embed)
 
 
-
 def setup(client: discord.ext.commands.bot.Bot) -> None:
     """
     Loads the Music cog.
