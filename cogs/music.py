@@ -117,11 +117,14 @@ class Music(commands.Cog):
         new_audio = Audio(results)
 
         server_queue = self.queues.get(ctx.guild.id)
-        server_queue.enqueue(new_audio)
-        await ctx.send(embed=enqueue_embed(new_audio, ctx.author.mention))
-
-        if voice.is_playing():  # If a song is already playing, we just enqueue it.
+        in_use = voice.is_playing() or voice.is_paused() or not server_queue.is_empty()
+        if in_use:  # There are other songs in the queue
+            server_queue.enqueue(new_audio)  # Queue next song and return
+            await ctx.send(embed=enqueue_embed(new_audio, ctx.author.mention))
             return None
+
+        server_queue.enqueue(new_audio)  # Queuing first song in the queue
+        await ctx.send(embed=enqueue_embed(new_audio, ctx.author.mention))
 
         next_audio = server_queue.dequeue()
         audio_src = discord.FFmpegPCMAudio(next_audio.audio_url, **FFMPEG_OPTIONS)
