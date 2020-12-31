@@ -34,6 +34,13 @@ class Audio:
         self.video_url = dict_.get('video_link')
         self.channel = dict_.get('channel')
 
+    def __str__(self) -> str:
+        """
+        Returns a string representation of this audio.
+        """
+        res = f"{self.title} [{self.duration}]"
+        return res
+
     def get_id(self) -> str:
         """
         Returns the id of this audio.
