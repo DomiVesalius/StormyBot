@@ -30,8 +30,8 @@ class Audio:
         self.title = dict_.get('title')
         self.thumbnails = dict_.get('thumbnails')
         self.duration = dict_.get('duration')
-        self.audio_url = dict_.get('url_suffix')
-        self.video_url = dict_.get('video_url')
+        self.audio_url = dict_.get('audio_link')
+        self.video_url = dict_.get('video_link')
         self.channel = dict_.get('channel')
 
     def get_id(self) -> str:
