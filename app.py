@@ -3,7 +3,10 @@ This is the main module for Stormy.
 Run this file for Stormy to start up.
 """
 
-import discord, asyncio, os, random
+import discord
+import asyncio
+import os
+import random
 from discord.ext import commands
 from dotenv import load_dotenv
 
