@@ -79,7 +79,18 @@ class Music(commands.Cog):
         If the bot is connected to a voice channel, pauses its audio if any is playing,
         and resumes audio if it is paused.
         """
+        try:  # Checking if the command invoker is in a voice channel
+            author_vc = ctx.message.author.voice.channel.id
+        except AttributeError:
+            await ctx.send("You need to be in the same voice channel as me.")
+            return None
+
         voice_client = ctx.voice_client
+        # Checking if invokers vc is the same as bots vc
+        if voice_client.channel.id != author_vc:
+            await ctx.send("You need to be in the same voice channel as me.")
+            return None
+
         if not voice_client.is_connected():
             await ctx.send("I'm not in any voice channels.")
             return
@@ -96,9 +107,19 @@ class Music(commands.Cog):
         """
         Plays the audio of the given query if found.
         """
+        try:  # Checking if the command invoker is in a voice channel
+            author_vc = ctx.message.author.voice.channel.id
+        except AttributeError:
+            await ctx.send("You need to be in the same voice channel as me.")
+            return None
+
         await self.join(ctx, outputs=False)
 
         voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
+        if voice.channel.id != author_vc:
+            await ctx.send("You need to be in the same voice channel as me.")
+            return None
+
         results = youtube_search(query, 1)
 
         if not results:
@@ -112,8 +133,7 @@ class Music(commands.Cog):
             info = ydl.extract_info(video_link, download=False)
             audio_url = info['formats'][0]['url']
 
-        results['audio_link'] = audio_url
-        results['video_link'] = video_link
+        results['audio_link'], results['video_link'] = audio_url, video_link
         new_audio = Audio(results)
 
         server_queue = self.queues.get(ctx.guild.id)
@@ -151,7 +171,7 @@ class Music(commands.Cog):
                 pass
 
     @commands.command(name="skip", aliases=["Skip", "next", "Next"])
-    async def skip(self, ctx: Context):
+    async def skip(self, ctx: Context) -> None:
         """
         Skips the currently playing song.
         """
