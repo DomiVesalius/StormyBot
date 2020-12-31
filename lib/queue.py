@@ -111,6 +111,12 @@ class Queue:
                 self.enqueue(item)
             return item
 
+    def remove(self, index: int) -> None:
+        """
+        Removes the item at the given <index>
+        """
+        self._items.pop(index)
+
     def loop(self) -> None:
         """
         Sets this queue to looping.
