@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any, Optional
+from random import shuffle
 
 
 class Node:
@@ -75,6 +76,22 @@ class LinkedList:
 
         res += "]"
 
+        return res
+
+    def string_formatted(self) -> str:
+        """
+        Returns a formatted list of items in the linked list.
+        """
+        res = ""
+        i = 1
+        curr = self.first
+        while curr is not None:
+            if i == self.size:
+                res += f"{i}. {str(curr.data)}"
+            else:
+                res += f"{i}. {str(curr.data)}\n"
+            curr = curr.next
+            i += 1
         return res
 
     def get_items(self) -> list:
@@ -189,3 +206,20 @@ class LinkedList:
         curr.next.prev = curr.prev
         self.size -= 1
         return data
+
+    def shuffle(self) -> None:
+        """
+        Perfectly shuffles the items in this linked list.
+
+        Shuffling Procedure:
+            - Split <self> into two halves.
+            - Interleave the second half with the first half
+        """
+        # TODO: This is a temporary shuffle method that doesn't follow the procedure above
+        items = self.get_items()
+        shuffle(items)
+        curr, i = self.first, 0
+        while curr is not None:
+            curr.data = items[i]
+            curr = curr.next
+            i += 1
