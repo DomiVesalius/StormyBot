@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import Any, Union, List
 from lib.linked_list import LinkedList
+from random import shuffle
 
 
 class Queue:
@@ -8,6 +9,7 @@ class Queue:
     A FIFO queue data structure.
     """
     _items: Union[LinkedList, List]
+    looping: bool
 
     def __init__(self, items: list = None) -> None:
         """
@@ -18,6 +20,7 @@ class Queue:
             self._items = LinkedList()
         else:
             self._items = LinkedList(items)
+        self.looping = False
 
     def get_items(self) -> list:
         """
@@ -51,6 +54,27 @@ class Queue:
         """
         return self._items.size == 0
 
+    def is_looping(self) -> bool:
+        """
+        Returns True iff self is a looping queue.
+        """
+        return self.looping
+
+    def string_formatted(self) -> str:
+        """
+        Returns a formatted version of the string representation of this queue.
+        """
+        if isinstance(self._items, list):
+            res = ''
+            for i, item in enumerate(self._items):
+                if i == len(self._items) - 1:
+                    res += f"{i + 1}. {item}"
+                else:
+                    res += f"{i + 1}. {item}\n"
+            return res
+
+        return self._items.string_formatted()
+
     def enqueue(self, item: Any) -> None:
         """
         Enqueues <item> into the Queue <self>
@@ -82,4 +106,22 @@ class Queue:
         -3
         """
         if not self.is_empty():
-            return self._items.pop(0)
+            item = self._items.pop(0)
+            if self.looping:
+                self.enqueue(item)
+            return item
+
+    def loop(self) -> None:
+        """
+        Sets this queue to looping.
+        """
+        self.looping = not self.looping
+
+    def shuffle(self) -> None:
+        """
+        Shuffles the queue.
+        """
+        if isinstance(self._items, list):
+            shuffle(self._items)
+        else:
+            self._items.shuffle()
