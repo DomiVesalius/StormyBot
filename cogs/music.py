@@ -1,16 +1,14 @@
-from typing import Dict, List, Optional
+from typing import Dict, List
 import discord
 from random import choice
 from discord.ext import commands
 from discord.ext.commands import Context
 from embed_maker import enqueue_embed, now_playing_embed
 from lib.queue import Queue
-from lib.ydl_opts import YDL_OPTS, FFMPEG_OPTIONS
+from lib.ydl_ffmpeg_opts import YDL_OPTS, FFMPEG_OPTIONS
 from lib.audio import Audio
 from youtube_search import YoutubeSearch
 import youtube_dl
-import time
-import os
 import asyncio
 
 
@@ -67,9 +65,10 @@ class Music(commands.Cog):
             if user_channel != server.channel:  # If the user isn't in the same vc as self
                 await ctx.send("You need to be in the same voice channel as me.")
                 return None
+            server.stop()
             await server.disconnect()
             await ctx.send(choice(self.farewells))
-            if self.queues.get(ctx.guild.id):  # Deleting the queue from the queues attribute
+            if self.queues.get(ctx.guild.id):  # Removing the servers queue
                 del self.queues[ctx.guild.id]
         except AttributeError:
             await ctx.send("I am not in any voice channel.")
@@ -96,9 +95,6 @@ class Music(commands.Cog):
     async def play(self, ctx: Context, *, query: str) -> None:
         """
         Plays the audio of the given query if found.
-        :param ctx:
-        :param query:
-        :return:
         """
         await self.join(ctx, outputs=False)
 
@@ -114,9 +110,9 @@ class Music(commands.Cog):
         video_link = f"https://www.youtube.com{results['url_suffix']}"
         with youtube_dl.YoutubeDL(YDL_OPTS) as ydl:
             info = ydl.extract_info(video_link, download=False)
-            URL = info['formats'][0]['url']
+            audio_url = info['formats'][0]['url']
 
-        results['url_suffix'] = URL
+        results['audio_link'] = audio_url
         results['video_link'] = video_link
         new_audio = Audio(results)
 
@@ -142,19 +138,25 @@ class Music(commands.Cog):
         if not server_queue.is_empty():  # Playing next song only if there is one.
             voice = discord.utils.get(self.client.voice_clients, guild=ctx.guild)
             next_source = server_queue.dequeue()
-            asyncio.run_coroutine_threadsafe(ctx.send(embed=now_playing_embed(
-                next_source, ctx.author.mention)), self.client.loop)
-            voice.play(discord.FFmpegPCMAudio(next_source.audio_url, **FFMPEG_OPTIONS),
-                       after=lambda x: self.play_next(ctx))  # Playing audio
+            try:
+                voice.play(discord.FFmpegPCMAudio(next_source.audio_url,
+                                                  **FFMPEG_OPTIONS),
+                           after=lambda x: self.play_next(ctx))  # Playing audio
+                asyncio.run_coroutine_threadsafe(ctx.send(embed=now_playing_embed(
+                    next_source, ctx.author.mention)), self.client.loop)
+            except AttributeError:
+                pass
 
-    @commands.command(name="skip", aliases=["Skip"])
+    @commands.command(name="skip", aliases=["Skip", "next", "Next"])
     async def skip(self, ctx: Context):
+        """
+        Skips the currently playing song.
+        """
         try:  # Checks if the command author is in a voice channel
 
             author_vc = ctx.message.author.voice.channel.id
             bot_vc = discord.utils.get(self.client.voice_clients,
                                        guild=ctx.guild).channel.id
-
             if bot_vc == author_vc:
                 try:
                     if ctx.voice_client.is_playing() or ctx.voice_client.is_paused():
@@ -183,6 +185,26 @@ class Music(commands.Cog):
                 await ctx.send("➡ Queue is no longer looping...")
         except AttributeError:  # There is no active queue for this server
             pass
+
+    @commands.command(name='queue', aliases=["q", "Q", "Queue"])
+    async def queue(self, ctx: Context) -> None:
+        """
+        Displays the list of items in the queue.
+        """
+        server_queue = self.queues.get(ctx.guild.id)
+
+        try:
+            str_list = server_queue.string_formatted()
+
+            if not str_list:
+                description = "```EMPTY```"
+            else:
+                description = f"```python\n{str_list}\n```"
+            queue_embed = discord.Embed(title="Current Queue",
+                                        description=description)
+            await ctx.send(embed=queue_embed)
+        except AttributeError:  # server_queue may be None
+            await ctx.send("There is no queue, take off your clothes 👀")
 
 
 def setup(client: discord.ext.commands.bot.Bot) -> None:
