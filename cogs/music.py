@@ -18,7 +18,7 @@ class Music(commands.Cog):
     """
 
     client: discord.ext.commands.bot.Bot
-    queues: Dict[discord.voice_client.VoiceClient, Queue]
+    queues: Dict[int, Queue]
     greetings: List[str]
     farewells: List[str]
 
