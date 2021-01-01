@@ -85,28 +85,35 @@ class Music(commands.Cog):
             await ctx.send("You need to be in the same voice channel as me.")
             return None
 
-        voice_client = ctx.voice_client
+        try:
+            voice_client = ctx.voice_client
+            voice_channel_id = voice_client.channel.id
+        except AttributeError:
+            await ctx.send("I'm not in any voice channels")
+            return None
+
         # Checking if invokers vc is the same as bots vc
-        if voice_client.channel.id != author_vc:
+        if voice_channel_id != author_vc:
             await ctx.send("You need to be in the same voice channel as me.")
             return None
 
-        if not voice_client.is_connected():
-            await ctx.send("I'm not in any voice channels.")
-            return
         if voice_client.is_playing():
             voice_client.pause()
-            embed = discord.Embed(title="Music playback has been paused")
+            embed = discord.Embed(title="⏸ Music playback has been paused")
         else:
             voice_client.resume()
-            embed = discord.Embed(title="Music playback has resumed.")
+            embed = discord.Embed(title="▶ Music playback has resumed.")
         await ctx.send(embed=embed)
 
     @commands.command(name='play', aliases=['Play'])
-    async def play(self, ctx: Context, *, query: str) -> None:
+    async def play(self, ctx: Context, *, query: str = None) -> None:
         """
         Plays the audio of the given query if found.
         """
+        if not query:  # If there is no query
+            await self.pause(ctx)
+            return None
+
         try:  # Checking if the command invoker is in a voice channel
             author_vc = ctx.message.author.voice.channel.id
         except AttributeError:
