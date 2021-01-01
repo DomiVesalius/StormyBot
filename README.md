@@ -10,6 +10,7 @@
 * ``play <query/>``:
     * Stormy will play the first search result given the query term.
     * This command can take in both search terms and youtube links.
+    * Will act as a pause/resume command if no query is specified.
 * ``loop``:
     * Changes the status of the queue to loop audio in the queue.
     * Every time a new audio is played, it is added back into the end of the queue.
