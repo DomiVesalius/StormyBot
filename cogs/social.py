@@ -65,4 +65,7 @@ class Social(commands.Cog):
 
 
 def setup(client: Bot) -> None:
+    """
+    Loads the Social cog.
+    """
     client.add_cog(Social(client))
