@@ -22,7 +22,8 @@ async def change_status() -> None:
                        "Grand Theft Auto V", "MapleStory 2",
                        "Taking your derivative ( ͡° ͜ʖ ͡°)",
                        "Bopping chanchan with kendo sticc",
-                       'Flaming Shady 🔥', 'Studying']
+                       'Flaming Shady 🔥', 'Studying',
+                       'https://github.com/DomiVesalius/StormyBot']
     print('All Systems Operational')
 
     while not CLIENT.is_closed():
