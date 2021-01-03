@@ -10,7 +10,7 @@ import random
 from discord.ext import commands
 from dotenv import load_dotenv
 
-CLIENT = commands.Bot(command_prefix='>')  # Bot instance
+CLIENT = commands.Bot(command_prefix='>', case_insensitive=True)  # Bot instance
 
 
 async def change_status() -> None:
