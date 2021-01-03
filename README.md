@@ -37,3 +37,11 @@
     * Sends an embed containing a larger version of <@members>s' profile picture.
     * If not member is mentioned, the embed will have the profile picture of the person
     that invoked the command.
+---
+**Miscellaneous Commands** - January 3, 2021
+* ``coinflip``
+    * Flips a coin and outputs the result.
+* ``choose <option1>, <option2>,..., <optionN>``
+    * Chooses an item from a comma separated sequence.
+* ``repeat <message>``
+    * Stormy will delete your message and repeat its contents.
