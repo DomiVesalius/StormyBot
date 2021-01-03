@@ -30,7 +30,7 @@ class Music(commands.Cog):
         self.greetings = ["Ay boss!", "Henlo.", 'Pain.']
         self.farewells = ["Aight, I'ma head out", "Sayonara", "oof"]
 
-    @commands.command(name='join', aliases=['Join'])
+    @commands.command(name='join')
     async def join(self, ctx: Context,
                    outputs: bool = True) -> None:
         """
@@ -52,7 +52,7 @@ class Music(commands.Cog):
         except AttributeError:  # Invoker is not in a voice channel.
             await ctx.send("You need to be in a voice channel for me to join..")
 
-    @commands.command(name='leave', aliases=['Leave', 'Stop', 'stop'])
+    @commands.command(name='leave', aliases=['stop'])
     async def leave(self, ctx: Context) -> None:
         """
         Makes the bot leave the voice channel it is in if any.
@@ -73,7 +73,7 @@ class Music(commands.Cog):
         except AttributeError:
             await ctx.send("I am not in any voice channel.")
 
-    @commands.command(name="pause", aliases=["unpause", "up", "resume"])
+    @commands.command(name="pause", aliases=["unpause", "resume"])
     async def pause(self, ctx: Context) -> None:
         """
         If the bot is connected to a voice channel, pauses its audio if any is playing,
@@ -105,7 +105,7 @@ class Music(commands.Cog):
             embed = discord.Embed(title="▶ Music playback has resumed.")
         await ctx.send(embed=embed)
 
-    @commands.command(name='play', aliases=['Play'])
+    @commands.command(name='play')
     async def play(self, ctx: Context, *, query: str = None) -> None:
         """
         Plays the audio of the given query if found.
@@ -177,7 +177,7 @@ class Music(commands.Cog):
             except AttributeError:
                 pass
 
-    @commands.command(name="skip", aliases=["Skip", "next", "Next"])
+    @commands.command(name="skip", aliases=["next"])
     async def skip(self, ctx: Context) -> None:
         """
         Skips the currently playing song.
@@ -200,7 +200,7 @@ class Music(commands.Cog):
         except AttributeError:  # If command author isn't in voice channel, does nothing.
             pass
 
-    @commands.command(name='loop', aliases=['Loop'])
+    @commands.command(name='loop')
     async def loop(self, ctx: Context) -> None:
         """
         Sets the queue to looping.
@@ -216,7 +216,7 @@ class Music(commands.Cog):
         except AttributeError:  # There is no active queue for this server
             pass
 
-    @commands.command(name='queue', aliases=["q", "Q", "Queue"])
+    @commands.command(name='queue', aliases=["q"])
     async def queue(self, ctx: Context) -> None:
         """
         Displays the list of items in the queue.
