@@ -16,7 +16,7 @@ class Search(commands.Cog):
         """
         self.client = client
 
-    @commands.command(name='youtube', aliases=['yt', 'YT', "Youtube", "YouTube"])
+    @commands.command(name='youtube', aliases=['yt'])
     async def youtube_search(self, ctx: Context, *, query: str = None) -> None:
         """
         Outputs a youtube link related to the search term <query>
