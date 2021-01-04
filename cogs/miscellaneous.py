@@ -2,7 +2,9 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord.ext.commands.bot import Bot
+from discord.ext.commands.errors import CommandInvokeError
 from random import choice
+from py_expression_eval import Parser
 import asyncio
 
 
@@ -58,6 +60,18 @@ class Miscellaneous(commands.Cog):
             return None
         await ctx.send(msg)
         await ctx.message.delete()
+
+    @commands.command(name = "calc", aliases = ["Calculate", "calculator"])
+    async def calc(self, ctx, *, message=None):
+        if message is not None:
+            try:
+                parser = Parser()
+                res = parser.parse(message).evaluate({})
+                answer = discord.Embed(title="🤖 Calculator", color=0x149FEA)
+                answer.add_field(name=f"{message} = ", value=f"{res}")
+                await ctx.send(embed=answer)
+            except (ValueError, Exception):
+                await ctx.send("Invalid Input.")
 
 
 def setup(client: Bot) -> None:
