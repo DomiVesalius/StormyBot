@@ -153,10 +153,7 @@ class Music(commands.Cog):
         server_queue.enqueue(new_audio)  # Queuing first song in the queue
         await ctx.send(embed=enqueue_embed(new_audio, ctx.author.mention))
 
-        next_audio = server_queue.dequeue()
-        audio_src = discord.FFmpegPCMAudio(next_audio.audio_url, **FFMPEG_OPTIONS)
-        voice.play(audio_src, after=lambda x: self.play_next(ctx))
-        await ctx.send(embed=now_playing_embed(next_audio, ctx.author.mention))
+        self.play_next(ctx)
 
     def play_next(self, ctx: Context) -> None:
         """
