@@ -14,9 +14,9 @@
 * ``loop``:
     * Changes the status of the queue to loop audio in the queue.
     * Every time a new audio is played, it is added back into the end of the queue.
-* ``pause:``
+* ``pause``:
     * If there is a song that is currently playing, pauses audio playback.
-    * If there is not song that is currently playing (ie playback is paused), then audio
+    * If there is no song that is currently playing (ie playback is paused), then audio
       playback is resumed.
 * ``skip``:
     * Skips the song that is currently playing.
