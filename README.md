@@ -45,3 +45,6 @@
     * Chooses an item from a comma separated sequence.
 * ``repeat <message>``
     * Stormy will delete your message and repeat its contents.
+
+### Note
+This bot is no longer maintained and may have bugs due to deprecated code. All this code is mostly from before the existence of slash commands and I haven't gotten around to migrating/refactoring this project yet.
